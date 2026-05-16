@@ -5,7 +5,7 @@
 | Name | Surya Prakash B |
 | Reg No | 212224230281 |
 | Experiment Number | 02 |
-| Date | 16-05-2025 |
+| Date | 15-05-2025 |
 
 <h1 align="center"> MATRIX SUMMATION WITH A 2D GRID AND 2D BLOCKS </h1>
 i.  Use the file sumMatrixOnGPU-2D-grid-2D-block.cu
