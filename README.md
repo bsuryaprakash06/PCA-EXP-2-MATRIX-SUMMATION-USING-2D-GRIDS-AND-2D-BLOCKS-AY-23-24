@@ -189,13 +189,10 @@ __global__ void sumMatrixOnGPU2D(float *A, float *B, float *C, int NX, int NY)
      unsigned int iy = blockIdx.y * blockDim.y + threadIdx.y;
      unsigned int idx = iy * NX + ix;
 
-     if (idx < NX * NY)
-     {
-         C[idx] = A[idx] + B[idx];
-     }
-
-
-
+     if (ix < nx && iy < ny)
+    {
+        C[idx] = A[idx] + B[idx];
+    }
 
 }
 
@@ -259,22 +256,11 @@ int main(int argc, char **argv)
     dim3 grid((nx + block.x - 1) / block.x,
           (ny + block.y - 1) / block.y);
 
-iStart = seconds();
-
-sumMatrixOnGPU2D<<<grid, block>>>(d_MatA, d_MatB, d_MatC, nx, ny);
-
-CHECK(cudaDeviceSynchronize());
-
-
-
-
-
-   // dim3 block(dimx, dimy);
-   // dim3 grid((nx + block.x - 1) / block.x, (ny + block.y - 1) / block.y);
-   // iStart = seconds();
-  //  sumMatrixOnGPU2D<<<512,32>>>(d_MatA, d_MatB, d_MatC, nx, ny);
-  //  CHECK(cudaDeviceSynchronize());
-    iElaps = seconds() - iStart;
+    iStart = seconds();
+    
+    sumMatrixOnGPU2D<<<grid, block>>>(d_MatA, d_MatB, d_MatC, nx, ny);
+    
+    CHECK(cudaDeviceSynchronize());
     printf("sumMatrixOnGPU2D <<<(%d,%d), (%d,%d)>>> elapsed %f sec\n", grid.x,
            grid.y,
            block.x, block.y, iElaps);
